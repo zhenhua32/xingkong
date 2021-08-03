@@ -3,7 +3,11 @@
 */
 package search
 
-import "time"
+import (
+	"time"
+
+	"github.com/zhenhua32/xingkong/pkg/logger"
+)
 
 // SearchResult 定义了单条搜索结果的信息
 type SearchResult struct {
@@ -49,7 +53,8 @@ func (g *GlobalSearchEngine) Search(keyword string, limit int) (SearchResultList
 	for _, e := range g.engineList {
 		r, err := (*e).Search(keyword, limit)
 		if err != nil {
-			// TODO: 记录错误
+			// 记录错误
+			logger.Sugar.Errorf("search error: %s", err)
 			continue
 		}
 		result = append(result, r...)
