@@ -16,9 +16,14 @@ type SearchResult struct {
 	Brief          string    `json:"brief"`            // 简介
 	Url            string    `json:"url"`              // 链接
 	BookType       string    `json:"book_type"`        // 类型
+	ImgUrl         string    `json:"img_url"`          // 图片链接
 	LastUpdateTime time.Time `json:"last_update_time"` // 最近更新时间
 	LastChapter    string    `json:"last_chapter"`     // 最近更新章节
 }
+
+// func (g SearchResult) String() string {
+// 	return fmt.Sprintf("书名: %s, 链接: %s", g.BookName, g.Url)
+// }
 
 type SearchResultList []SearchResult
 
@@ -34,11 +39,15 @@ type SearchEngine interface {
 
 // 全局搜索引擎
 type GlobalSearchEngine struct {
-	engineList []*SearchEngine
+	engineList []SearchEngine
+}
+
+func (g *GlobalSearchEngine) EngineList() []SearchEngine {
+	return g.engineList
 }
 
 // 注册一个引擎
-func (g *GlobalSearchEngine) Register(engine *SearchEngine) {
+func (g *GlobalSearchEngine) Register(engine SearchEngine) {
 	g.engineList = append(g.engineList, engine)
 }
 
@@ -51,7 +60,7 @@ func (g *GlobalSearchEngine) Search(keyword string, limit int) (SearchResultList
 
 	result := make(SearchResultList, 0)
 	for _, e := range g.engineList {
-		r, err := (*e).Search(keyword, limit)
+		r, err := e.Search(keyword, limit)
 		if err != nil {
 			// 记录错误
 			logger.Sugar.Errorf("search error: %s", err)
@@ -59,5 +68,10 @@ func (g *GlobalSearchEngine) Search(keyword string, limit int) (SearchResultList
 		}
 		result = append(result, r...)
 	}
+	if len(result) > limit {
+		result = result[:limit]
+	}
 	return result, nil
 }
+
+var GlobalSearchEngineInstance = &GlobalSearchEngine{}
