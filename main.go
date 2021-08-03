@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 
 	_ "github.com/zhenhua32/xingkong/internal/search"
 	"github.com/zhenhua32/xingkong/pkg/search"
@@ -14,7 +15,10 @@ func main() {
 	result, _ := g.Search("大奉打更人", 10)
 
 	fmt.Println("结果数量", len(result))
-	for _, v := range result {
-		fmt.Println(v)
+	for _, r := range result {
+		v := reflect.ValueOf(r)
+		for i := 0; i < v.NumField(); i++ {
+			fmt.Println(v.Type().Field(i).Name, v.Field(i).Interface())
+		}
 	}
 }

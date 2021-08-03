@@ -1,5 +1,9 @@
 /*
 	search 包定义了基础的搜索功能
+
+	SearchEngine 接口公开了特定源应该实现的方法, 然后在 GlobalSearchEngineInstance 上注册
+	GlobalSearchEngine 接口定义了全局的搜索引擎, 可以通过 Register 方法聚合各种源
+	GlobalSearchEngineInstance 是 GlobalSearchEngine 的唯一实例
 */
 package search
 
@@ -20,10 +24,6 @@ type SearchResult struct {
 	LastUpdateTime time.Time `json:"last_update_time"` // 最近更新时间
 	LastChapter    string    `json:"last_chapter"`     // 最近更新章节
 }
-
-// func (g SearchResult) String() string {
-// 	return fmt.Sprintf("书名: %s, 链接: %s", g.BookName, g.Url)
-// }
 
 type SearchResultList []SearchResult
 

@@ -8,6 +8,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
 	"github.com/zhenhua32/xingkong/configs"
+	"github.com/zhenhua32/xingkong/pkg/logger"
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
@@ -26,11 +27,17 @@ func (g SearchEngine01) Source() string {
 func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultList, error) {
 	// 定义返回结果
 	result := make(search.SearchResultList, 0, 10)
+	var err error
 
 	// 初始化一个新请求
 	c := colly.NewCollector()
 	extensions.RandomUserAgent(c)
 	extensions.Referer(c)
+
+	c.OnError(func(_ *colly.Response, e error) {
+		logger.Sugar.Debug(e)
+		err = e
+	})
 
 	// 获取搜索结果
 	c.OnHTML("body > div.result-list", func(e *colly.HTMLElement) {
@@ -40,7 +47,7 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 
 			bookName := e.ChildText(`div.result-game-item-detail > h3 > a`)
 			author := e.ChildText(`div.result-game-item-detail > div > p:nth-child(1) > span:nth-child(2)`)
-			brief := e.ChildText(`div.result-game-item-desc`)
+			brief := e.ChildText(`p.result-game-item-desc`)
 
 			u, _ := baseUrl.Parse(e.ChildAttr(`div.result-game-item-detail > h3 > a`, "href"))
 
@@ -69,7 +76,7 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 	// 执行
 	c.Visit(fmt.Sprintf("%s/search.php?q=%s", g.baseUrl, keyword))
 
-	return result, nil
+	return result, err
 }
 
 func init() {
