@@ -12,8 +12,10 @@ import (
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
+var BaseUrlStr01 string = "http://www.wbxsw.com"
+var BaseUrl01 *url.URL
+
 type SearchEngine01 struct {
-	baseUrl string
 }
 
 func (g SearchEngine01) String() string {
@@ -21,7 +23,7 @@ func (g SearchEngine01) String() string {
 }
 
 func (g SearchEngine01) Source() string {
-	return g.baseUrl
+	return BaseUrlStr01
 }
 
 func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultList, error) {
@@ -43,17 +45,16 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 	c.OnHTML("body > div.result-list", func(e *colly.HTMLElement) {
 		// 获取每一个搜索结果
 		e.ForEach(`.result-item`, func(_ int, e *colly.HTMLElement) {
-			baseUrl, _ := url.Parse(g.baseUrl)
 
 			bookName := e.ChildText(`div.result-game-item-detail > h3 > a`)
 			author := e.ChildText(`div.result-game-item-detail > div > p:nth-child(1) > span:nth-child(2)`)
 			brief := e.ChildText(`p.result-game-item-desc`)
 
-			u, _ := baseUrl.Parse(e.ChildAttr(`div.result-game-item-detail > h3 > a`, "href"))
+			u, _ := BaseUrl01.Parse(e.ChildAttr(`div.result-game-item-detail > h3 > a`, "href"))
 
 			bookType := e.ChildText(`div.result-game-item-detail > div > p:nth-child(2) > span:nth-child(2)`)
 
-			imgUrl, _ := baseUrl.Parse(e.ChildAttr(`div.result-game-item-pic > a`, "href"))
+			imgUrl, _ := BaseUrl01.Parse(e.ChildAttr(`div.result-game-item-pic > a`, "href"))
 
 			lastUpdateTimeS := e.ChildText(`div.result-game-item-detail > div > p:nth-child(3) > span:nth-child(2)`)
 			lastUpdateTime, _ := time.ParseInLocation("2006-01-02 15:04:05", lastUpdateTimeS, configs.TimeZone)
@@ -74,12 +75,13 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 		})
 	})
 	// 执行
-	c.Visit(fmt.Sprintf("%s/search.php?q=%s", g.baseUrl, keyword))
+	c.Visit(fmt.Sprintf("%s/search.php?q=%s", BaseUrlStr01, keyword))
 
 	return result, err
 }
 
 func init() {
-	engine := SearchEngine01{baseUrl: "http://www.wbxsw.com"}
+	BaseUrl01, _ = url.Parse(BaseUrlStr01)
+	engine := SearchEngine01{}
 	search.GlobalSearchEngineInstance.Register(&engine)
 }
