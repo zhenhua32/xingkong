@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/zhenhua32/xingkong/internal/book"
-	_ "github.com/zhenhua32/xingkong/internal/search"
+	_ "github.com/zhenhua32/xingkong/internal/bookimpl"
+	_ "github.com/zhenhua32/xingkong/internal/searchimpl"
 	"github.com/zhenhua32/xingkong/pkg/book"
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
 func main() {
-	g := search.GlobalSearchEngineInstance
+	g := search.GSE
 	fmt.Println("注册的引擎数量", len(g.EngineList()))
 
 	resultList, _ := g.Search("大奉打更人", 10)
@@ -27,7 +27,7 @@ func main() {
 	result1 := resultList[0]
 	fmt.Println(result1)
 
-	b := book.GlobalBookManagerInstance.NewBook(result1)
+	b := book.GBM.NewBook(result1)
 
 	fmt.Println(b)
 

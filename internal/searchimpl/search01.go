@@ -1,4 +1,4 @@
-package search
+package searchimpl
 
 import (
 	"fmt"
@@ -84,5 +84,5 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 func init() {
 	BaseUrl01, _ = url.Parse(BaseUrlStr01)
 	engine := SearchEngine01{}
-	search.GlobalSearchEngineInstance.Register(&engine)
+	search.GSE.Register(&engine)
 }

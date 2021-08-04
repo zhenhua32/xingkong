@@ -1,4 +1,4 @@
-package book
+package bookimpl
 
 import (
 	"strings"
@@ -6,7 +6,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
 
-	search_impl "github.com/zhenhua32/xingkong/internal/search"
+	"github.com/zhenhua32/xingkong/internal/searchimpl"
 	"github.com/zhenhua32/xingkong/pkg/book"
 	"github.com/zhenhua32/xingkong/pkg/logger"
 	"github.com/zhenhua32/xingkong/pkg/search"
@@ -59,7 +59,7 @@ func GenGetChapterList01(url string, b *book.Book) book.GetChapterList {
 		c.OnHTML(`#list > dl`, func(e *colly.HTMLElement) {
 			e.ForEach(`dd`, func(_ int, s *colly.HTMLElement) {
 				name := s.ChildText(`a`)
-				u, _ := search_impl.BaseUrl01.Parse(s.ChildAttr(`a`, `href`))
+				u, _ := searchimpl.BaseUrl01.Parse(s.ChildAttr(`a`, `href`))
 
 				result = append(result, *NewChapter01(name, u.String(), b))
 			})
@@ -99,6 +99,6 @@ func GenGetContent01(url string) book.GetContent {
 }
 
 func init() {
-	book.GlobalBookManagerInstance.RegisterNewBook(search_impl.BaseUrlStr01, NewBook01)
-	book.GlobalBookManagerInstance.RegisterNewChapter(search_impl.BaseUrlStr01, NewChapter01)
+	book.GBM.RegisterNewBook(searchimpl.BaseUrlStr01, NewBook01)
+	book.GBM.RegisterNewChapter(searchimpl.BaseUrlStr01, NewChapter01)
 }

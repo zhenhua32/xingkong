@@ -75,4 +75,4 @@ func (g *GlobalSearchEngine) Search(keyword string, limit int) (SearchResultList
 	return result, nil
 }
 
-var GlobalSearchEngineInstance = &GlobalSearchEngine{}
+var GSE = &GlobalSearchEngine{}

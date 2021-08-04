@@ -85,7 +85,7 @@ func (g *GlobalBookManager) NewChapter(name string, url string, book *Book) *Cha
 	return f(name, url, book)
 }
 
-var GlobalBookManagerInstance = &GlobalBookManager{
+var GBM = &GlobalBookManager{
 	bookFuncMap:   make(map[string]NewBook),
 	chaperFuncMap: make(map[string]NewChapter),
 }
