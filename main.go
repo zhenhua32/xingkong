@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"reflect"
+	"os"
 
+	_ "github.com/zhenhua32/xingkong/internal/book"
 	_ "github.com/zhenhua32/xingkong/internal/search"
+	"github.com/zhenhua32/xingkong/pkg/book"
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
@@ -12,13 +14,38 @@ func main() {
 	g := search.GlobalSearchEngineInstance
 	fmt.Println("注册的引擎数量", len(g.EngineList()))
 
-	result, _ := g.Search("大奉打更人", 10)
+	resultList, _ := g.Search("大奉打更人", 10)
 
-	fmt.Println("结果数量", len(result))
-	for _, r := range result {
-		v := reflect.ValueOf(r)
-		for i := 0; i < v.NumField(); i++ {
-			fmt.Println(v.Type().Field(i).Name, v.Field(i).Interface())
-		}
+	fmt.Println("结果数量", len(resultList))
+	// for _, r := range resultList {
+	// 	v := reflect.ValueOf(r)
+	// 	for i := 0; i < v.NumField(); i++ {
+	// 		fmt.Println(v.Type().Field(i).Name, v.Field(i).Interface())
+	// 	}
+	// }
+
+	result1 := resultList[0]
+	fmt.Println(result1)
+
+	b := book.GlobalBookManagerInstance.NewBook(result1)
+
+	fmt.Println(b)
+
+	clist, e := b.GetChapterList()
+	if e != nil {
+		fmt.Println(e)
 	}
+
+	fmt.Println(len(clist))
+
+	c := clist[0]
+	fmt.Println(c)
+
+	content, e := c.GetContent()
+	if e != nil {
+		fmt.Println(e)
+	}
+	fmt.Println(content)
+
+	os.WriteFile("a.txt", []byte(content), 0644)
 }

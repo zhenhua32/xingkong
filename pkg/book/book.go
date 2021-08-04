@@ -3,7 +3,12 @@
 */
 package book
 
-import "time"
+import (
+	"time"
+
+	"github.com/zhenhua32/xingkong/pkg/logger"
+	"github.com/zhenhua32/xingkong/pkg/search"
+)
 
 // Book 定义了书籍信息
 type Book struct {
@@ -15,6 +20,7 @@ type Book struct {
 	ImgUrl         string    `json:"img_url"`          // 图片链接
 	LastUpdateTime time.Time `json:"last_update_time"` // 最近更新时间
 	LastChapter    Chapter   `json:"last_chapter"`     // 最近更新章节
+	Source         string    `json:"source"`           // 来源
 
 	// 定义对应的方法
 	GetChapterList GetChapterList `json:"-"`
@@ -31,10 +37,55 @@ type Chapter struct {
 }
 
 type ChapterList []Chapter
+
+// GetChapterList 定义获取所有章节列表的函数
 type GetChapterList func() (ChapterList, error)
+
+// GetContent 定义获取章节内容的函数
 type GetContent func() (string, error)
 
-type BookManager interface {
-	GetChapterList(book *Book) (ChapterList, error)
-	GetContent(chapter *Chapter) (string, error)
+type NewBook func(s search.SearchResult) *Book
+type NewChapter func(name string, url string, book *Book) *Chapter
+
+// 全局书籍管理器
+type GlobalBookManager struct {
+	bookFuncMap   map[string]NewBook
+	chaperFuncMap map[string]NewChapter
+}
+
+// 在源上注册 NewBook 函数
+func (g *GlobalBookManager) RegisterNewBook(source string, f NewBook) {
+	g.bookFuncMap[source] = f
+}
+
+// 在源上注册 NewChapter 函数
+func (g *GlobalBookManager) RegisterNewChapter(source string, f NewChapter) {
+	g.chaperFuncMap[source] = f
+}
+
+// NewBook 将 SearchResult 转换成 Book
+func (g *GlobalBookManager) NewBook(s search.SearchResult) *Book {
+	f := g.bookFuncMap[s.Source]
+	if f == nil {
+		logger.Sugar.Infof("找不到对应的 NewBook 函数, 源是 %s", s.Source)
+		return nil
+	}
+
+	return f(s)
+}
+
+// NewChapter 获取一个 Chapter
+func (g *GlobalBookManager) NewChapter(name string, url string, book *Book) *Chapter {
+	f := g.chaperFuncMap[book.Source]
+	if f == nil {
+		logger.Sugar.Infof("找不到对应的 NewChapter 函数, 源是 %s", book.Source)
+		return nil
+	}
+
+	return f(name, url, book)
+}
+
+var GlobalBookManagerInstance = &GlobalBookManager{
+	bookFuncMap:   make(map[string]NewBook),
+	chaperFuncMap: make(map[string]NewChapter),
 }
