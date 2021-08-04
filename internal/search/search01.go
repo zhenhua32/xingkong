@@ -70,6 +70,7 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 				ImgUrl:         imgUrl.String(),
 				LastUpdateTime: lastUpdateTime,
 				LastChapter:    lastChapter,
+				Source:         g.Source(),
 			})
 
 		})

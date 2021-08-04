@@ -23,6 +23,7 @@ type SearchResult struct {
 	ImgUrl         string    `json:"img_url"`          // 图片链接
 	LastUpdateTime time.Time `json:"last_update_time"` // 最近更新时间
 	LastChapter    string    `json:"last_chapter"`     // 最近更新章节
+	Source         string    `json:"source"`           // 来源
 }
 
 type SearchResultList []SearchResult
