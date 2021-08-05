@@ -1,0 +1,38 @@
+basePath: /
+definitions:
+  ping.PingResp:
+    properties:
+      hello:
+        type: string
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact:
+    email: zhenhua32@xingkong.io
+    name: API Support
+    url: http://xingkong.io/support
+  description: 行空 API, 用于小说搜索
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: 行空 API
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      consumes:
+      - text/html
+      description: 测试连接是否正常
+      operationId: ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ping.PingResp'
+      summary: 测试连接是否正常
+      tags:
+      - 监控
+swagger: "2.0"

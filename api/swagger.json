@@ -1,0 +1,56 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "行空 API, 用于小说搜索",
+        "title": "行空 API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://xingkong.io/support",
+            "email": "zhenhua32@xingkong.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:8080",
+    "basePath": "/",
+    "paths": {
+        "/ping": {
+            "get": {
+                "description": "测试连接是否正常",
+                "consumes": [
+                    "text/html"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "监控"
+                ],
+                "summary": "测试连接是否正常",
+                "operationId": "ping",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ping.PingResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ping.PingResp": {
+            "type": "object",
+            "properties": {
+                "hello": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
