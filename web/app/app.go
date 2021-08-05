@@ -17,5 +17,8 @@ func Router() http.Handler {
 	r.Use(ginzap.Ginzap(logger.Logger, time.RFC3339, false))
 	r.Use(ginzap.RecoveryWithZap(logger.Logger, true))
 
+	// 添加路由
+	loadAPI(r)
+
 	return r
 }

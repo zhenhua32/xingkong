@@ -8,6 +8,21 @@ import (
 	"github.com/zhenhua32/xingkong/web/app"
 )
 
+// @title 行空 API
+// @version 1.0
+// @description 行空 API, 用于小说搜索
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://xingkong.io/support
+// @contact.email zhenhua32@xingkong.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /
+
 func main() {
 	var addr string = ":8080"
 
