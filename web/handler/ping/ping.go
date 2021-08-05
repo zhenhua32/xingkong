@@ -1,6 +1,9 @@
 package ping
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/zhenhua32/xingkong/web/handler"
+)
 
 type PingResp struct {
 	Hello string `json:"hello"`
@@ -16,7 +19,5 @@ type PingResp struct {
 // @Success 200 {object} ping.PingResp
 // @Router /ping [get]
 func Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"hello": "world",
-	})
+	handler.JSON(c, nil, PingResp{Hello: "world"})
 }
