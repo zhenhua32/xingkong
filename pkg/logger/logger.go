@@ -8,7 +8,11 @@ var Logger *zap.Logger
 var Sugar *zap.SugaredLogger
 
 func init() {
-	Logger, _ = zap.NewDevelopment()
+	cfg := zap.NewDevelopmentConfig()
+	// cfg.OutputPaths = []string{"stdout", "./out/app.log"}
+	cfg.OutputPaths = []string{"./out/app.log"}
+	Logger, _ = cfg.Build()
+
 	zap.ReplaceGlobals(Logger)
 	Sugar = Logger.Sugar()
 }
