@@ -13,7 +13,7 @@ require (
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/spec v0.20.3 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
-	github.com/go-playground/validator/v10 v10.8.0 // indirect
+	github.com/go-playground/validator/v10 v10.8.0
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.2.0
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -22,7 +22,6 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
-	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.1
 	github.com/swaggo/swag v1.7.0
 	github.com/temoto/robotstxt v1.1.2 // indirect

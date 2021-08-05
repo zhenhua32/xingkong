@@ -14,12 +14,16 @@ import (
 // @Tags 搜索
 // @Accept  json
 // @Produce  json
-// @Param search body search.SearchReq true "搜索参数"
+// @Param body body search.SearchReq true "搜索参数"
 // @Success 200 {object} search.SearchResp
 // @Router /search [post]
 func Search(c *gin.Context) {
 	var req SearchReq
 	if err := c.ShouldBindJSON(&req); err != nil {
+		handler.JSON(c, errno.NewErrno(errno.ErrBind.Code, err.Error(), err), nil)
+		return
+	}
+	if err := req.Validate(); err != nil {
 		handler.JSON(c, errno.NewErrno(errno.ErrBind.Code, err.Error(), err), nil)
 		return
 	}

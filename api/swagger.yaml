@@ -8,8 +8,15 @@ definitions:
   search.SearchReq:
     properties:
       keyword:
+        description: 搜索关键字
+        maxLength: 20
+        minLength: 1
         type: string
       limit:
+        default: 10
+        description: 限制结果数量
+        maximum: 100
+        minimum: 1
         type: integer
     required:
     - keyword
@@ -92,7 +99,7 @@ paths:
       parameters:
       - description: 搜索参数
         in: body
-        name: search
+        name: body
         required: true
         schema:
           $ref: '#/definitions/search.SearchReq'

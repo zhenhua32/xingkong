@@ -74,7 +74,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "搜索参数",
-                        "name": "search",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -109,10 +109,17 @@ var doc = `{
             ],
             "properties": {
                 "keyword": {
-                    "type": "string"
+                    "description": "搜索关键字",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1
                 },
                 "limit": {
-                    "type": "integer"
+                    "description": "限制结果数量",
+                    "type": "integer",
+                    "default": 10,
+                    "maximum": 100,
+                    "minimum": 1
                 }
             }
         },
