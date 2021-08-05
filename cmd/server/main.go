@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/zhenhua32/xingkong/internal/bookimpl"
+	_ "github.com/zhenhua32/xingkong/internal/searchimpl"
 	"github.com/zhenhua32/xingkong/pkg/logger"
 	"github.com/zhenhua32/xingkong/web/app"
 )

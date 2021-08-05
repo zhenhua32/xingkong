@@ -1,5 +1,7 @@
 package errno
 
+import "fmt"
+
 // 错误码设计
 type Errno struct {
 	Code     int
@@ -9,7 +11,7 @@ type Errno struct {
 
 // 实现了 error 接口
 func (e *Errno) Error() string {
-	return e.Msg
+	return fmt.Sprintf("Code: %d, Msg: %s, 内部错误信息: %s", e.Code, e.Msg, e.Internal.Error())
 }
 
 // 定义新的错误码

@@ -56,6 +56,41 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/search": {
+            "post": {
+                "description": "返回小说的搜索结果",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "搜索"
+                ],
+                "summary": "返回小说的搜索结果",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "description": "搜索参数",
+                        "name": "search",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/search.SearchReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/search.SearchResp"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -63,6 +98,75 @@ var doc = `{
             "type": "object",
             "properties": {
                 "hello": {
+                    "type": "string"
+                }
+            }
+        },
+        "search.SearchReq": {
+            "type": "object",
+            "required": [
+                "keyword"
+            ],
+            "properties": {
+                "keyword": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "integer"
+                }
+            }
+        },
+        "search.SearchResp": {
+            "type": "object",
+            "properties": {
+                "data_list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/search.SearchResult"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "search.SearchResult": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "description": "作者",
+                    "type": "string"
+                },
+                "book_name": {
+                    "description": "书名",
+                    "type": "string"
+                },
+                "book_type": {
+                    "description": "类型",
+                    "type": "string"
+                },
+                "brief": {
+                    "description": "简介",
+                    "type": "string"
+                },
+                "img_url": {
+                    "description": "图片链接",
+                    "type": "string"
+                },
+                "last_chapter": {
+                    "description": "最近更新章节",
+                    "type": "string"
+                },
+                "last_update_time": {
+                    "description": "最近更新时间",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "链接",
                     "type": "string"
                 }
             }

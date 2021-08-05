@@ -6,6 +6,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	_ "github.com/zhenhua32/xingkong/api"
 	"github.com/zhenhua32/xingkong/web/handler/ping"
+	"github.com/zhenhua32/xingkong/web/handler/search"
 )
 
 func loadSwagger(g *gin.Engine) {
@@ -18,4 +19,5 @@ func loadAPI(g *gin.Engine) {
 	loadSwagger(g)
 
 	g.GET("/ping", ping.Ping)
+	g.POST("/search", search.Search)
 }

@@ -5,6 +5,54 @@ definitions:
       hello:
         type: string
     type: object
+  search.SearchReq:
+    properties:
+      keyword:
+        type: string
+      limit:
+        type: integer
+    required:
+    - keyword
+    type: object
+  search.SearchResp:
+    properties:
+      data_list:
+        items:
+          $ref: '#/definitions/search.SearchResult'
+        type: array
+      total:
+        type: integer
+    type: object
+  search.SearchResult:
+    properties:
+      author:
+        description: 作者
+        type: string
+      book_name:
+        description: 书名
+        type: string
+      book_type:
+        description: 类型
+        type: string
+      brief:
+        description: 简介
+        type: string
+      img_url:
+        description: 图片链接
+        type: string
+      last_chapter:
+        description: 最近更新章节
+        type: string
+      last_update_time:
+        description: 最近更新时间
+        type: string
+      source:
+        description: 来源
+        type: string
+      url:
+        description: 链接
+        type: string
+    type: object
 host: 127.0.0.1:8080
 info:
   contact:
@@ -35,4 +83,27 @@ paths:
       summary: 测试连接是否正常
       tags:
       - 监控
+  /search:
+    post:
+      consumes:
+      - application/json
+      description: 返回小说的搜索结果
+      operationId: search
+      parameters:
+      - description: 搜索参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/search.SearchReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/search.SearchResp'
+      summary: 返回小说的搜索结果
+      tags:
+      - 搜索
 swagger: "2.0"
