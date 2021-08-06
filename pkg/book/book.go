@@ -12,15 +12,15 @@ import (
 
 // Book 定义了书籍信息
 type Book struct {
-	Name           string    `json:"name" gorm:"type:string;size:64"`      // 书名
-	Author         string    `json:"author" gorm:"type:string;size:64"`    // 作者
-	Brief          string    `json:"brief" gorm:"type:text"`               // 简介
-	Url            string    `json:"url" gorm:"type:string;size:256"`      // 链接
-	BookType       string    `json:"book_type" gorm:"type:string;size:16"` // 类型
-	ImgUrl         string    `json:"img_url" gorm:"type:string;size:256"`  // 图片链接
-	LastUpdateTime time.Time `json:"last_update_time"`                     // 最近更新时间
-	LastChapter    *Chapter  `json:"last_chapter" gorm:"-"`                // 最近更新章节
-	Source         string    `json:"source" gorm:"type:string;size:256"`   // 来源
+	Name           string    `json:"name" gorm:"type:string;size:64"`             // 书名
+	Author         string    `json:"author" gorm:"type:string;size:64"`           // 作者
+	Brief          string    `json:"brief" gorm:"type:text"`                      // 简介
+	Url            string    `json:"url" gorm:"type:string;size:256;uniqueIndex"` // 链接
+	BookType       string    `json:"book_type" gorm:"type:string;size:16"`        // 类型
+	ImgUrl         string    `json:"img_url" gorm:"type:string;size:256"`         // 图片链接
+	LastUpdateTime time.Time `json:"last_update_time"`                            // 最近更新时间
+	LastChapter    *Chapter  `json:"last_chapter" gorm:"-"`                       // 最近更新章节
+	Source         string    `json:"source" gorm:"type:string;size:256"`          // 来源
 
 	// 定义对应的方法
 	GetChapterList GetChapterList `json:"-" gorm:"-"`
@@ -28,9 +28,9 @@ type Book struct {
 
 // Chapter 定义了章节信息
 type Chapter struct {
-	Name string `json:"name" gorm:"type:string;size:256"` // 章节名称
-	Url  string `json:"url" gorm:"type:string;size:256"`  // 链接
-	Book *Book  `json:"-" gorm:"-"`                       // 书籍
+	Name string `json:"name" gorm:"type:string;size:256"`            // 章节名称
+	Url  string `json:"url" gorm:"type:string;size:256;uniqueIndex"` // 链接
+	Book *Book  `json:"-" gorm:"-"`                                  // 书籍
 
 	// 定义对应的方法
 	GetContent GetContent `json:"-" gorm:"-"`

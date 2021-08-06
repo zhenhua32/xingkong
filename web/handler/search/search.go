@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/zhenhua32/xingkong/pkg/errno"
+	model "github.com/zhenhua32/xingkong/pkg/model/gorm"
 	s "github.com/zhenhua32/xingkong/pkg/search"
 	"github.com/zhenhua32/xingkong/web/handler"
 )
@@ -35,6 +36,8 @@ func Search(c *gin.Context) {
 	if err != nil {
 		handler.JSON(c, err, nil)
 	}
+	// 将结果保存到数据库中
+	model.UpsertBookSearchResult(&resultList)
 
 	handler.JSON(c, nil, SearchResp{Total: len(resultList), DataList: resultList})
 }
