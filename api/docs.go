@@ -33,6 +33,38 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/book/{id}": {
+            "get": {
+                "description": "返回小说的详情",
+                "consumes": [
+                    "text/html"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "book"
+                ],
+                "summary": "返回小说的详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "小说ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Book"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "测试连接是否正常",
@@ -94,6 +126,125 @@ var doc = `{
         }
     },
     "definitions": {
+        "book.Book": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "description": "作者",
+                    "type": "string"
+                },
+                "book_type": {
+                    "description": "类型",
+                    "type": "string"
+                },
+                "brief": {
+                    "description": "简介",
+                    "type": "string"
+                },
+                "img_url": {
+                    "description": "图片链接",
+                    "type": "string"
+                },
+                "last_chapter": {
+                    "description": "最近更新章节",
+                    "$ref": "#/definitions/book.Chapter"
+                },
+                "last_update_time": {
+                    "description": "最近更新时间",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "书名",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "链接",
+                    "type": "string"
+                }
+            }
+        },
+        "book.Chapter": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "章节名称",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "链接",
+                    "type": "string"
+                }
+            }
+        },
+        "deleteat.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
+        "model.Book": {
+            "type": "object",
+            "properties": {
+                "book": {
+                    "$ref": "#/definitions/book.Book"
+                },
+                "chapter_list": {
+                    "description": "定义 Has Many 关系",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Chapter"
+                    }
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "delete_at": {
+                    "$ref": "#/definitions/deleteat.DeletedAt"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Chapter": {
+            "type": "object",
+            "properties": {
+                "bookID": {
+                    "type": "integer"
+                },
+                "chapter": {
+                    "$ref": "#/definitions/book.Chapter"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "delete_at": {
+                    "$ref": "#/definitions/deleteat.DeletedAt"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        },
         "ping.PingResp": {
             "type": "object",
             "properties": {

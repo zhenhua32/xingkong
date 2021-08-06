@@ -19,4 +19,13 @@ var (
 )
 
 // 定义错误码, 以及默认的错误信息
-var ErrBind = &Errno{Code: 10001, Msg: "请求参数错误"}
+
+// 1 系统错误
+
+// 2 用户错误
+
+// 201 请求相关
+var ErrBind = &Errno{Code: 20101, Msg: "请求参数错误"}
+
+// 202 数据库
+var ErrNotFound = &Errno{Code: 20201, Msg: "数据不存在"}

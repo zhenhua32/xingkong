@@ -1,5 +1,5 @@
 /*
-	book 包定义了基础的书籍模型
+	book 包定义了基础的小说模型
 */
 package book
 
@@ -10,7 +10,7 @@ import (
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
-// Book 定义了书籍信息
+// Book 定义了小说信息
 type Book struct {
 	Name           string    `json:"name" gorm:"type:string;size:64"`             // 书名
 	Author         string    `json:"author" gorm:"type:string;size:64"`           // 作者
@@ -30,7 +30,7 @@ type Book struct {
 type Chapter struct {
 	Name string `json:"name" gorm:"type:string;size:256"`            // 章节名称
 	Url  string `json:"url" gorm:"type:string;size:256;uniqueIndex"` // 链接
-	Book *Book  `json:"-" gorm:"-"`                                  // 书籍
+	Book *Book  `json:"-" gorm:"-"`                                  // 小说
 
 	// 定义对应的方法
 	GetContent GetContent `json:"-" gorm:"-"`
@@ -47,7 +47,7 @@ type GetContent func() (string, error)
 type NewBook func(s search.SearchResult) *Book
 type NewChapter func(name string, url string, book *Book) *Chapter
 
-// 全局书籍管理器
+// 全局小说管理器
 type GlobalBookManager struct {
 	bookFuncMap   map[string]NewBook
 	chaperFuncMap map[string]NewChapter

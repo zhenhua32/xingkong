@@ -14,20 +14,21 @@ import (
 )
 
 func RunSwaggerCmd() {
+	// --parseDependency --parseInternal 加这两个参数后极慢 https://github.com/swaggo/swag/issues/810
 	command := "swag init --output api --generalInfo ./cmd/server/main.go"
 
 	fmt.Println("准备生成 swagger doc, 执行的命令是", command)
 	params := strings.Split(command, " ")
 	cmd := exec.Command(params[0], params[1:]...)
 	stdoutStderr, err := cmd.CombinedOutput()
+	fmt.Printf("%s\n", stdoutStderr)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", stdoutStderr)
 }
 
 func prepare() {
-	RunSwaggerCmd()
+	// RunSwaggerCmd()
 	model.InitDB()
 	model.SetUpDB()
 }

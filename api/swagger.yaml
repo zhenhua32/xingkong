@@ -1,5 +1,87 @@
 basePath: /
 definitions:
+  book.Book:
+    properties:
+      author:
+        description: 作者
+        type: string
+      book_type:
+        description: 类型
+        type: string
+      brief:
+        description: 简介
+        type: string
+      img_url:
+        description: 图片链接
+        type: string
+      last_chapter:
+        $ref: '#/definitions/book.Chapter'
+        description: 最近更新章节
+      last_update_time:
+        description: 最近更新时间
+        type: string
+      name:
+        description: 书名
+        type: string
+      source:
+        description: 来源
+        type: string
+      url:
+        description: 链接
+        type: string
+    type: object
+  book.Chapter:
+    properties:
+      name:
+        description: 章节名称
+        type: string
+      url:
+        description: 链接
+        type: string
+    type: object
+  deleteat.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  model.Book:
+    properties:
+      book:
+        $ref: '#/definitions/book.Book'
+      chapter_list:
+        description: 定义 Has Many 关系
+        items:
+          $ref: '#/definitions/model.Chapter'
+        type: array
+      create_at:
+        type: string
+      delete_at:
+        $ref: '#/definitions/deleteat.DeletedAt'
+      id:
+        type: integer
+      update_at:
+        type: string
+    type: object
+  model.Chapter:
+    properties:
+      bookID:
+        type: integer
+      chapter:
+        $ref: '#/definitions/book.Chapter'
+      content:
+        type: string
+      create_at:
+        type: string
+      delete_at:
+        $ref: '#/definitions/deleteat.DeletedAt'
+      id:
+        type: integer
+      update_at:
+        type: string
+    type: object
   ping.PingResp:
     properties:
       hello:
@@ -74,6 +156,27 @@ info:
   title: 行空 API
   version: "1.0"
 paths:
+  /book/{id}:
+    get:
+      consumes:
+      - text/html
+      description: 返回小说的详情
+      parameters:
+      - description: 小说ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Book'
+      summary: 返回小说的详情
+      tags:
+      - book
   /ping:
     get:
       consumes:
