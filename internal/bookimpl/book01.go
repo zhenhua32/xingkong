@@ -47,11 +47,12 @@ func NewBook01(s interface{}) *book.Book {
 	return &b
 }
 
-func NewChapter01(name string, url string, b *book.Book) *book.Chapter {
+func NewChapter01(name string, url string, b *book.Book, index int) *book.Chapter {
 	c := book.Chapter{
-		Name: name,
-		Url:  url,
-		Book: b,
+		Name:  name,
+		Url:   url,
+		Book:  b,
+		Index: index,
 	}
 	c.GetContent = GenGetContent01(url)
 
@@ -76,11 +77,11 @@ func GenGetChapterList01(url string, b *book.Book) book.GetChapterList {
 		})
 
 		c.OnHTML(`#list > dl`, func(e *colly.HTMLElement) {
-			e.ForEach(`dd`, func(_ int, s *colly.HTMLElement) {
+			e.ForEach(`dd`, func(i int, s *colly.HTMLElement) {
 				name := s.ChildText(`a`)
 				u, _ := searchimpl.BaseUrl01.Parse(s.ChildAttr(`a`, `href`))
 
-				result = append(result, *NewChapter01(name, u.String(), b))
+				result = append(result, *NewChapter01(name, u.String(), b, i))
 			})
 		})
 

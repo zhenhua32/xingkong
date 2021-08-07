@@ -193,6 +193,10 @@ var doc = `{
         "book.Chapter": {
             "type": "object",
             "properties": {
+                "index": {
+                    "description": "章节序号",
+                    "type": "integer"
+                },
                 "name": {
                     "description": "章节名称",
                     "type": "string"
@@ -305,6 +309,10 @@ var doc = `{
                     "$ref": "#/definitions/deleteat.DeletedAt"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "index": {
+                    "description": "章节序号",
                     "type": "integer"
                 },
                 "name": {

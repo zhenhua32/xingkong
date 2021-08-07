@@ -2,6 +2,9 @@ basePath: /
 definitions:
   book.Chapter:
     properties:
+      index:
+        description: 章节序号
+        type: integer
       name:
         description: 章节名称
         type: string
@@ -80,6 +83,9 @@ definitions:
       delete_at:
         $ref: '#/definitions/deleteat.DeletedAt'
       id:
+        type: integer
+      index:
+        description: 章节序号
         type: integer
       name:
         description: 章节名称

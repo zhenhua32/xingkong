@@ -22,16 +22,17 @@ func (g *Chapter) Fill() error {
 	}
 
 	// 填充 Chapter 字段
-	g.Chapter = *book.GBM.NewChapter(g.Name, g.Url, &b.Book)
+	g.Chapter = *book.GBM.NewChapter(g.Name, g.Url, &b.Book, g.Index)
 	return nil
 }
 
 type ChapterList []Chapter
 
+// TODO: 加一个章节顺序字段
 // UpsertBookChapters 将 book.ChapterList 保存起来, 默认不更新 content 字段
 func UpsertBookChapters(b *Book, cl *book.ChapterList, fields []string) (*ChapterList, error) {
 	if fields == nil {
-		fields = []string{"name", "url", "book_id"}
+		fields = []string{"name", "url", "book_id", "index"}
 	}
 
 	var chapters = make(ChapterList, 0)
@@ -51,6 +52,6 @@ func UpsertBookChapters(b *Book, cl *book.ChapterList, fields []string) (*Chapte
 		logger.Sugar.Errorf("插入章节错误: %v", err)
 	}
 
-	DB.Omit("content").Where("book_id = ?", b.ID).Find(&chapters)
+	DB.Omit("content").Where("book_id = ?", b.ID).Order("index").Find(&chapters)
 	return &chapters, err
 }

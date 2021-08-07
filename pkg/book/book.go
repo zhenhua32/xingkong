@@ -29,9 +29,10 @@ type Book struct {
 
 // Chapter 定义了章节信息
 type Chapter struct {
-	Name string `json:"name" gorm:"type:string;size:256"`            // 章节名称
-	Url  string `json:"url" gorm:"type:string;size:256;uniqueIndex"` // 链接
-	Book *Book  `json:"-" gorm:"-"`                                  // 小说
+	Name  string `json:"name" gorm:"type:string;size:256"`            // 章节名称
+	Url   string `json:"url" gorm:"type:string;size:256;uniqueIndex"` // 链接
+	Book  *Book  `json:"-" gorm:"-"`                                  // 小说
+	Index int    `json:"index" gorm:"index"`                          // 章节序号
 
 	// 定义对应的方法
 	GetContent GetContent `json:"-" gorm:"-"`
@@ -46,7 +47,7 @@ type GetChapterList func() (ChapterList, error)
 type GetContent func() (string, error)
 
 type NewBook func(s interface{}) *Book
-type NewChapter func(name string, url string, book *Book) *Chapter
+type NewChapter func(name string, url string, book *Book, index int) *Chapter
 
 // 全局小说管理器
 type GlobalBookManager struct {
@@ -88,14 +89,14 @@ func (g *GlobalBookManager) NewBook(s interface{}) *Book {
 }
 
 // NewChapter 获取一个 Chapter
-func (g *GlobalBookManager) NewChapter(name string, url string, book *Book) *Chapter {
+func (g *GlobalBookManager) NewChapter(name string, url string, book *Book, index int) *Chapter {
 	f := g.chaperFuncMap[book.Source]
 	if f == nil {
 		logger.Sugar.Infof("找不到对应的 NewChapter 函数, 源是 %s", book.Source)
 		return nil
 	}
 
-	return f(name, url, book)
+	return f(name, url, book, index)
 }
 
 var GBM = &GlobalBookManager{
