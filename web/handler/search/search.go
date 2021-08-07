@@ -1,6 +1,8 @@
 package search
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/zhenhua32/xingkong/pkg/errno"
 	model "github.com/zhenhua32/xingkong/pkg/model/gorm"
@@ -42,6 +44,9 @@ func Search(c *gin.Context) {
 	if err != nil {
 		handler.JSON(c, err, nil)
 		return
+	}
+	for _, a := range *bl {
+		fmt.Println(a.ID)
 	}
 
 	handler.JSON(c, nil, SearchResp{Total: len(*bl), DataList: bl})

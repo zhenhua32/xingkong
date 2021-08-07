@@ -47,7 +47,7 @@ func GetBookDirectory(c *gin.Context) {
 	}
 
 	// 保存章节结果
-	cl, err := model.UpsertBookChapters(b, &chapterList)
+	cl, err := model.UpsertBookChapters(b, &chapterList, nil)
 	if err != nil {
 		handler.JSON(c, err, nil)
 		return
