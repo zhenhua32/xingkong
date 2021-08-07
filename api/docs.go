@@ -65,6 +65,38 @@ var doc = `{
                 }
             }
         },
+        "/book/{id}/directory": {
+            "get": {
+                "description": "返回小说的目录",
+                "consumes": [
+                    "text/html"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "book"
+                ],
+                "summary": "返回小说的目录",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "小说ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/book.GetBookDirectoryResp"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "测试连接是否正常",
@@ -180,6 +212,20 @@ var doc = `{
                 }
             }
         },
+        "book.GetBookDirectoryResp": {
+            "type": "object",
+            "properties": {
+                "data_list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Chapter"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "deleteat.DeletedAt": {
             "type": "object",
             "properties": {
@@ -222,7 +268,7 @@ var doc = `{
         "model.Chapter": {
             "type": "object",
             "properties": {
-                "bookID": {
+                "book_id": {
                     "type": "integer"
                 },
                 "chapter": {
@@ -280,52 +326,11 @@ var doc = `{
                 "data_list": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/search.SearchResult"
+                        "$ref": "#/definitions/model.Book"
                     }
                 },
                 "total": {
                     "type": "integer"
-                }
-            }
-        },
-        "search.SearchResult": {
-            "type": "object",
-            "properties": {
-                "author": {
-                    "description": "作者",
-                    "type": "string"
-                },
-                "book_name": {
-                    "description": "书名",
-                    "type": "string"
-                },
-                "book_type": {
-                    "description": "类型",
-                    "type": "string"
-                },
-                "brief": {
-                    "description": "简介",
-                    "type": "string"
-                },
-                "img_url": {
-                    "description": "图片链接",
-                    "type": "string"
-                },
-                "last_chapter": {
-                    "description": "最近更新章节",
-                    "type": "string"
-                },
-                "last_update_time": {
-                    "description": "最近更新时间",
-                    "type": "string"
-                },
-                "source": {
-                    "description": "来源",
-                    "type": "string"
-                },
-                "url": {
-                    "description": "链接",
-                    "type": "string"
                 }
             }
         }

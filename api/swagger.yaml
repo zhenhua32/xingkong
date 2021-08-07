@@ -39,6 +39,15 @@ definitions:
         description: 链接
         type: string
     type: object
+  book.GetBookDirectoryResp:
+    properties:
+      data_list:
+        items:
+          $ref: '#/definitions/model.Chapter'
+        type: array
+      total:
+        type: integer
+    type: object
   deleteat.DeletedAt:
     properties:
       time:
@@ -67,7 +76,7 @@ definitions:
     type: object
   model.Chapter:
     properties:
-      bookID:
+      book_id:
         type: integer
       chapter:
         $ref: '#/definitions/book.Chapter'
@@ -107,40 +116,10 @@ definitions:
     properties:
       data_list:
         items:
-          $ref: '#/definitions/search.SearchResult'
+          $ref: '#/definitions/model.Book'
         type: array
       total:
         type: integer
-    type: object
-  search.SearchResult:
-    properties:
-      author:
-        description: 作者
-        type: string
-      book_name:
-        description: 书名
-        type: string
-      book_type:
-        description: 类型
-        type: string
-      brief:
-        description: 简介
-        type: string
-      img_url:
-        description: 图片链接
-        type: string
-      last_chapter:
-        description: 最近更新章节
-        type: string
-      last_update_time:
-        description: 最近更新时间
-        type: string
-      source:
-        description: 来源
-        type: string
-      url:
-        description: 链接
-        type: string
     type: object
 host: 127.0.0.1:8080
 info:
@@ -175,6 +154,27 @@ paths:
           schema:
             $ref: '#/definitions/model.Book'
       summary: 返回小说的详情
+      tags:
+      - book
+  /book/{id}/directory:
+    get:
+      consumes:
+      - text/html
+      description: 返回小说的目录
+      parameters:
+      - description: 小说ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/book.GetBookDirectoryResp'
+      summary: 返回小说的目录
       tags:
       - book
   /ping:

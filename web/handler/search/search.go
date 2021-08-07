@@ -35,9 +35,14 @@ func Search(c *gin.Context) {
 	resultList, err := s.GSE.Search(req.Keyword, req.Limit)
 	if err != nil {
 		handler.JSON(c, err, nil)
+		return
 	}
 	// 将结果保存到数据库中
-	model.UpsertBookSearchResult(&resultList)
+	bl, err := model.UpsertBookSearchResult(&resultList)
+	if err != nil {
+		handler.JSON(c, err, nil)
+		return
+	}
 
-	handler.JSON(c, nil, SearchResp{Total: len(resultList), DataList: resultList})
+	handler.JSON(c, nil, SearchResp{Total: len(*bl), DataList: bl})
 }

@@ -1,7 +1,7 @@
 package search
 
 import (
-	s "github.com/zhenhua32/xingkong/pkg/search"
+	model "github.com/zhenhua32/xingkong/pkg/model/gorm"
 	"github.com/zhenhua32/xingkong/web/valid"
 )
 
@@ -15,6 +15,6 @@ func (g *SearchReq) Validate() error {
 }
 
 type SearchResp struct {
-	Total    int              `json:"total"`
-	DataList []s.SearchResult `json:"data_list"`
+	Total    int             `json:"total"`
+	DataList *model.BookList `json:"data_list"`
 }

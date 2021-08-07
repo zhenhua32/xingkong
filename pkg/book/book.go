@@ -4,6 +4,7 @@
 package book
 
 import (
+	"reflect"
 	"time"
 
 	"github.com/zhenhua32/xingkong/pkg/logger"
@@ -44,7 +45,7 @@ type GetChapterList func() (ChapterList, error)
 // GetContent 定义获取章节内容的函数
 type GetContent func() (string, error)
 
-type NewBook func(s search.SearchResult) *Book
+type NewBook func(s interface{}) *Book
 type NewChapter func(name string, url string, book *Book) *Chapter
 
 // 全局小说管理器
@@ -64,10 +65,22 @@ func (g *GlobalBookManager) RegisterNewChapter(source string, f NewChapter) {
 }
 
 // NewBook 将 SearchResult 转换成 Book
-func (g *GlobalBookManager) NewBook(s search.SearchResult) *Book {
-	f := g.bookFuncMap[s.Source]
+func (g *GlobalBookManager) NewBook(s interface{}) *Book {
+	var source string
+	switch v := s.(type) {
+	case *search.SearchResult:
+		source = v.Source
+	case *Book:
+		source = v.Source
+	default:
+		t := reflect.TypeOf(s)
+		logger.Sugar.Warnf("s 的类型不匹配, 应该是 *search.SearchResult 或 *book.Book, 但是得到了 %s", t)
+		return nil
+	}
+
+	f := g.bookFuncMap[source]
 	if f == nil {
-		logger.Sugar.Infof("找不到对应的 NewBook 函数, 源是 %s", s.Source)
+		logger.Sugar.Warnf("找不到对应的 NewBook 函数, 源是 %s", source)
 		return nil
 	}
 

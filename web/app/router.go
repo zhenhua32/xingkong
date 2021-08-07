@@ -24,4 +24,5 @@ func loadAPI(g *gin.Engine) {
 	g.POST("/search", search.Search)
 
 	g.GET("/book/:id", book.GetBook)
+	g.GET("/book/:id/directory", book.GetBookDirectory)
 }

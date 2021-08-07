@@ -12,18 +12,37 @@ import (
 	"github.com/zhenhua32/xingkong/pkg/search"
 )
 
-func NewBook01(s search.SearchResult) *book.Book {
-	b := book.Book{
-		Name:           s.BookName,
-		Author:         s.Author,
-		Brief:          s.Brief,
-		Url:            s.Url,
-		BookType:       s.BookType,
-		ImgUrl:         s.ImgUrl,
-		LastUpdateTime: s.LastUpdateTime,
-		Source:         s.Source,
+func NewBook01(s interface{}) *book.Book {
+	var b book.Book
+	switch v := s.(type) {
+	case *book.Book:
+		b = book.Book{
+			Name:           v.Name,
+			Author:         v.Author,
+			Brief:          v.Brief,
+			Url:            v.Url,
+			BookType:       v.BookType,
+			ImgUrl:         v.ImgUrl,
+			LastUpdateTime: v.LastUpdateTime,
+			Source:         v.Source,
+		}
+	case *search.SearchResult:
+		b = book.Book{
+			Name:           v.BookName,
+			Author:         v.Author,
+			Brief:          v.Brief,
+			Url:            v.Url,
+			BookType:       v.BookType,
+			ImgUrl:         v.ImgUrl,
+			LastUpdateTime: v.LastUpdateTime,
+			Source:         v.Source,
+		}
+	default:
+		return nil
 	}
-	b.GetChapterList = GenGetChapterList01(s.Url, &b)
+
+	// 主要还是要重建方法
+	b.GetChapterList = GenGetChapterList01(b.Url, &b)
 
 	return &b
 }
