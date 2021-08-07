@@ -35,4 +35,5 @@ require (
 	google.golang.org/protobuf v1.27.1 // indirect
 	gorm.io/driver/mysql v1.1.1
 	gorm.io/gorm v1.21.12
+	moul.io/zapgorm2 v1.1.0 // indirect
 )

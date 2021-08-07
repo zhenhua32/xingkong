@@ -22,14 +22,12 @@ func UpsertBookChapters(b *Book, cl *book.ChapterList, fields []string) (*Chapte
 	}
 
 	var chapters = make(ChapterList, 0)
-	var urls []string
 
 	for _, c := range *cl {
 		chapters = append(chapters, Chapter{
 			Chapter: c,
 			BookID:  b.ID,
 		})
-		urls = append(urls, c.Url)
 	}
 
 	err := DB.Clauses(clause.OnConflict{
@@ -40,6 +38,6 @@ func UpsertBookChapters(b *Book, cl *book.ChapterList, fields []string) (*Chapte
 		logger.Sugar.Errorf("插入章节错误: %v", err)
 	}
 
-	DB.Where("url in ?", urls).Find(&chapters)
+	DB.Omit("content").Where("book_id = ?", b.ID).Find(&chapters)
 	return &chapters, err
 }
