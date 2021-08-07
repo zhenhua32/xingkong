@@ -6,6 +6,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	_ "github.com/zhenhua32/xingkong/api"
 	"github.com/zhenhua32/xingkong/web/handler/book"
+	"github.com/zhenhua32/xingkong/web/handler/chapter"
 	"github.com/zhenhua32/xingkong/web/handler/ping"
 	"github.com/zhenhua32/xingkong/web/handler/search"
 )
@@ -25,4 +26,6 @@ func loadAPI(g *gin.Engine) {
 
 	g.GET("/book/:id", book.GetBook)
 	g.GET("/book/:id/directory", book.GetBookDirectory)
+
+	g.GET("/chapter/:id", chapter.GetChapter)
 }

@@ -13,6 +13,19 @@ type Chapter struct {
 	BookID  uint   `json:"book_id"`
 }
 
+// Fill 填充, 用于从数据库里取数据后
+func (g *Chapter) Fill() error {
+	// 填充 Book 字段
+	var b = Book{}
+	if err := DB.First(&b, g.BookID).Error; err != nil {
+		return err
+	}
+
+	// 填充 Chapter 字段
+	g.Chapter = *book.GBM.NewChapter(g.Name, g.Url, &b.Book)
+	return nil
+}
+
 type ChapterList []Chapter
 
 // UpsertBookChapters 将 book.ChapterList 保存起来, 默认不更新 content 字段

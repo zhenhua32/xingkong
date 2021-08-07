@@ -97,6 +97,38 @@ var doc = `{
                 }
             }
         },
+        "/chapter/{id}": {
+            "get": {
+                "description": "返回章节的详情",
+                "consumes": [
+                    "text/html"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chapter"
+                ],
+                "summary": "返回章节的详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "章节ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Chapter"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "测试连接是否正常",

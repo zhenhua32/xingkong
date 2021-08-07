@@ -176,6 +176,27 @@ paths:
       summary: 返回小说的目录
       tags:
       - book
+  /chapter/{id}:
+    get:
+      consumes:
+      - text/html
+      description: 返回章节的详情
+      parameters:
+      - description: 章节ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Chapter'
+      summary: 返回章节的详情
+      tags:
+      - chapter
   /ping:
     get:
       consumes:
