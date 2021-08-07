@@ -158,47 +158,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "book.Book": {
-            "type": "object",
-            "properties": {
-                "author": {
-                    "description": "作者",
-                    "type": "string"
-                },
-                "book_type": {
-                    "description": "类型",
-                    "type": "string"
-                },
-                "brief": {
-                    "description": "简介",
-                    "type": "string"
-                },
-                "img_url": {
-                    "description": "图片链接",
-                    "type": "string"
-                },
-                "last_chapter": {
-                    "description": "最近更新章节",
-                    "$ref": "#/definitions/book.Chapter"
-                },
-                "last_update_time": {
-                    "description": "最近更新时间",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "书名",
-                    "type": "string"
-                },
-                "source": {
-                    "description": "来源",
-                    "type": "string"
-                },
-                "url": {
-                    "description": "链接",
-                    "type": "string"
-                }
-            }
-        },
         "book.Chapter": {
             "type": "object",
             "properties": {
@@ -241,8 +200,17 @@ var doc = `{
         "model.Book": {
             "type": "object",
             "properties": {
-                "book": {
-                    "$ref": "#/definitions/book.Book"
+                "author": {
+                    "description": "作者",
+                    "type": "string"
+                },
+                "book_type": {
+                    "description": "类型",
+                    "type": "string"
+                },
+                "brief": {
+                    "description": "简介",
+                    "type": "string"
                 },
                 "chapter_list": {
                     "description": "定义 Has Many 关系",
@@ -260,7 +228,31 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "img_url": {
+                    "description": "图片链接",
+                    "type": "string"
+                },
+                "last_chapter": {
+                    "description": "最近更新章节",
+                    "$ref": "#/definitions/book.Chapter"
+                },
+                "last_update_time": {
+                    "description": "最近更新时间",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "书名",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "string"
+                },
                 "update_at": {
+                    "type": "string"
+                },
+                "url": {
+                    "description": "链接",
                     "type": "string"
                 }
             }
@@ -270,9 +262,6 @@ var doc = `{
             "properties": {
                 "book_id": {
                     "type": "integer"
-                },
-                "chapter": {
-                    "$ref": "#/definitions/book.Chapter"
                 },
                 "content": {
                     "type": "string"
@@ -286,7 +275,15 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "name": {
+                    "description": "章节名称",
+                    "type": "string"
+                },
                 "update_at": {
+                    "type": "string"
+                },
+                "url": {
+                    "description": "链接",
                     "type": "string"
                 }
             }

@@ -8,9 +8,9 @@ import (
 
 type Chapter struct {
 	BaseModel
-	Chapter book.Chapter `gorm:"embedded" json:"chapter"`
-	Content string       `gorm:"type:text" json:"content"`
-	BookID  uint         `json:"book_id"`
+	book.Chapter
+	Content string `gorm:"type:text" json:"content"`
+	BookID  uint   `json:"book_id"`
 }
 
 type ChapterList []Chapter

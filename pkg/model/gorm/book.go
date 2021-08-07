@@ -9,7 +9,8 @@ import (
 
 type Book struct {
 	BaseModel
-	Book book.Book `gorm:"embedded" json:"book"`
+	// TODO: 改成匿名结构体, 而不是用这个 embedded
+	book.Book
 
 	// 定义 Has Many 关系
 	ChapterList []Chapter `json:"chapter_list"  gorm:"foreignKey:BookID"`
