@@ -54,7 +54,7 @@ func (g SearchEngine01) Search(keyword string, limit int) (search.SearchResultLi
 
 			bookType := e.ChildText(`div.result-game-item-detail > div > p:nth-child(2) > span:nth-child(2)`)
 
-			imgUrl, _ := BaseUrl01.Parse(e.ChildAttr(`div.result-game-item-pic > a`, "href"))
+			imgUrl, _ := BaseUrl01.Parse(e.ChildAttr(`div.result-game-item-pic > a > img`, "src"))
 
 			lastUpdateTimeS := e.ChildText(`div.result-game-item-detail > div > p:nth-child(3) > span:nth-child(2)`)
 			lastUpdateTime, _ := time.ParseInLocation("2006-01-02 15:04:05", lastUpdateTimeS, configs.TimeZone)
